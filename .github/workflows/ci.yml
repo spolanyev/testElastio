@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check-format-and-clippy-happiness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run cargo fmt
+        run: cargo fmt -- --check
+      - name: Run cargo clippy
+        run: cargo clippy -- -Dwarnings
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run cargo test
+        run: cargo test
+
+  generate-doc:
+    if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run cargo doc
+        run: cargo doc --no-deps --lib --document-private-items
+      - name: Update doc
+        run: |
+          cd target/doc
+          git init
+          echo '<meta http-equiv="refresh" content="0; url=https://spolanyev.github.io/testElastio/test_elastio/index.html">' > index.html
+          git add .
+          git -c user.name="ci" -c user.email="ci" commit -m "add doc"
+          git push https://git:${{ secrets.github_token }}@github.com/${{ github.repository }} HEAD:doc --force --quiet 
