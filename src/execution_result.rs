@@ -8,6 +8,7 @@ pub enum ExecutionResult {
     WrongCommand = 4,
     WrongConfigureCommandParams = 8,
     WrongGetCommandParams = 16,
+    Err = 256,
 }
 
 impl Termination for ExecutionResult {
@@ -29,6 +30,9 @@ impl Termination for ExecutionResult {
                 println!("Expected date format is `2023-01-31`");
             }
 
+            ExecutionResult::Err => {
+                println!("Internal error");
+            }
             ExecutionResult::Ok => (),
         }
         ExitCode::from(0)

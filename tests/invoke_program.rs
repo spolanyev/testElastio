@@ -1,3 +1,5 @@
+//@author Stanislav Polaniev <spolanyev@gmail.com>
+
 use assert_cmd::Command;
 
 #[test]
