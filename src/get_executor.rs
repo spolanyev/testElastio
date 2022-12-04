@@ -4,6 +4,8 @@ use crate::execution_result::ExecutionResult;
 use crate::interfaces::command_interface::CommandInterface;
 use crate::interfaces::executor_chain_interface::ExecutorChainInterface;
 use chrono::NaiveDate;
+use directories::ProjectDirs;
+use std::fs;
 
 pub struct GetExecutor<'a> {
     pub next: Option<&'a dyn ExecutorChainInterface>,
@@ -21,6 +23,26 @@ impl<'a> ExecutorChainInterface for GetExecutor<'a> {
             {
                 return ExecutionResult::WrongGetCommandParams;
             }
+
+            let _provider = {
+                let Some(project_dirs) = ProjectDirs::from("com", "spolaniev",  "testElastio")  else {
+                    return ExecutionResult::CannotDefinePreferenceDir;
+                };
+
+                let preferences = project_dirs.config_dir().join("preferences");
+
+                match fs::read_to_string(preferences) {
+                    Ok(provider) => {
+                        let mut result = "Gismeteo".to_owned();
+                        let known_providers = vec!["Gismeteo", "Alvares"];
+                        if known_providers.contains(&provider.as_str()) {
+                            result = provider;
+                        }
+                        result
+                    }
+                    Err(_) => "Gismeteo".to_owned(),
+                }
+            };
 
             return ExecutionResult::Ok;
         }

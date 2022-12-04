@@ -8,12 +8,15 @@ pub enum ExecutionResult {
     WrongCommand = 4,
     WrongConfigureCommandParams = 8,
     WrongGetCommandParams = 16,
+    CannotSavePreferences = 64,
+    CannotDefinePreferenceDir = 128,
     Err = 256,
 }
 
 impl Termination for ExecutionResult {
     fn report(self) -> ExitCode {
         match self {
+            ExecutionResult::Ok => (),
             ExecutionResult::WrongParams => {
                 println!("Expected format is `weather configure Gismeteo` or `weather get London`");
             }
@@ -30,10 +33,17 @@ impl Termination for ExecutionResult {
                 println!("Expected date format is `2023-01-31`");
             }
 
+            ExecutionResult::CannotSavePreferences => {
+                println!("Cannot save preferences");
+            }
+
+            ExecutionResult::CannotDefinePreferenceDir => {
+                println!("Cannot define preferences directory");
+            }
+
             ExecutionResult::Err => {
                 println!("Internal error");
             }
-            ExecutionResult::Ok => (),
         }
         ExitCode::from(0)
     }

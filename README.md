@@ -2,9 +2,9 @@
 
 Task description is [here](/TASK.md)
 
-Auto-generated docs are [here](https://spolanyev.github.io/testElastio/)
+Auto-generated documentation is [here](https://spolanyev.github.io/testElastio/test_elastio/all.html)
 
-As was recommended, I used several crates: [assert_cmd](https://crates.io/crates/assert_cmd), [chrono](https://crates.io/crates/chrono), [log](https://crates.io/crates/log), [logtest](https://crates.io/crates/logtest).
+Crates used: [assert_cmd](https://crates.io/crates/assert_cmd), [chrono](https://crates.io/crates/chrono), [log](https://crates.io/crates/log), [logtest](https://crates.io/crates/logtest).
 
 Patterns used:
 

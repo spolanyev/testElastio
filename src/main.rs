@@ -6,6 +6,7 @@ use test_elastio::execution_result::ExecutionResult;
 use test_elastio::get_executor::GetExecutor;
 use test_elastio::interfaces::executor_chain_interface::ExecutorChainInterface;
 use test_elastio::request::Request;
+use test_elastio::view_command_executor::ViewCommandExecutor;
 
 fn main() -> ExecutionResult {
     let mut arguments = env::args();
@@ -28,7 +29,10 @@ fn main() -> ExecutionResult {
         date,
     };
 
-    let configure_executor = ConfigureExecutor::default();
+    let view_command_executor = ViewCommandExecutor::default();
+    let configure_executor = ConfigureExecutor {
+        next: Some(&view_command_executor),
+    };
     let get_executor = GetExecutor {
         next: Some(&configure_executor),
     };
