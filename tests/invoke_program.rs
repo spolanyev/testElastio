@@ -1,6 +1,7 @@
 //@author Stanislav Polaniev <spolanyev@gmail.com>
 
 use assert_cmd::Command;
+use serial_test::serial;
 
 #[test]
 fn invoke_without_params() {
@@ -11,6 +12,7 @@ fn invoke_without_params() {
 }
 
 #[test]
+#[serial]
 fn invoke_with_params() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
@@ -27,6 +29,7 @@ fn invoke_with_unknown_command() {
 }
 
 #[test]
+#[serial]
 fn invoke_with_known_provider() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
@@ -35,6 +38,7 @@ fn invoke_with_known_provider() {
 }
 
 #[test]
+#[serial]
 fn invoke_with_unknown_provider() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
@@ -67,6 +71,7 @@ fn invoke_with_invalid_date() {
 }
 
 #[test]
+#[serial]
 fn set_provider_and_check_it() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 

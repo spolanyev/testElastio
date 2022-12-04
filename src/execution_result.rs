@@ -2,6 +2,7 @@
 
 use std::process::{ExitCode, Termination};
 
+#[derive(PartialEq, Eq, Debug)]
 pub enum ExecutionResult {
     Ok = 0,
     WrongParams = 2,

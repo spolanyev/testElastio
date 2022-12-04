@@ -10,6 +10,17 @@ pub struct Settings<'a> {
     pub available_providers: [&'a str; 2],
 }
 
+impl<'a> Settings<'a> {
+    fn get_preferences_path() -> Result<PathBuf, ()> {
+        let Some(project_dirs) = ProjectDirs::from("com", "spolaniev", "testElastio")  else {
+            return Err(());
+        };
+
+        let preferences = project_dirs.config_dir().join("preferences");
+        Ok(preferences)
+    }
+}
+
 impl<'a> SettingsInterface for Settings<'a> {
     fn set_provider(&self, provider: &str) -> ExecutionResult {
         if !self.available_providers.contains(&provider) {
@@ -49,13 +60,23 @@ impl<'a> SettingsInterface for Settings<'a> {
     }
 }
 
-impl<'a> Settings<'a> {
-    fn get_preferences_path() -> Result<PathBuf, ()> {
-        let Some(project_dirs) = ProjectDirs::from("com", "spolaniev", "testElastio")  else {
-            return Err(());
+#[cfg(test)]
+
+mod tests {
+    use super::*;
+    use serial_test::serial;
+
+    #[test]
+    #[serial]
+    fn set_and_get() {
+        let settings = Settings {
+            available_providers: ["Mercury", "Venus"],
         };
 
-        let preferences = project_dirs.config_dir().join("preferences");
-        Ok(preferences)
+        settings.set_provider("Mercury");
+        assert_eq!(Ok("Mercury".to_string()), settings.get_provider());
+
+        settings.set_provider("Venus");
+        assert_eq!(Ok("Venus".to_string()), settings.get_provider());
     }
 }

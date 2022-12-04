@@ -46,3 +46,44 @@ impl TryFrom<Box<dyn Iterator<Item = String>>> for Request {
         })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::borrow::Borrow;
+
+    #[test]
+    fn test_without_date() {
+        let arguments: Box<dyn Iterator<Item = String>> = Box::new(
+            vec![
+                "path_will_be_skipped".to_owned(),
+                "configure".to_owned(),
+                "Venus".to_owned(),
+            ]
+            .into_iter(),
+        );
+        let request = Request::try_from(arguments).unwrap();
+
+        assert_eq!(None, request.get_date());
+        assert_eq!("Venus".to_string(), request.get_parameter());
+        assert_eq!("configure".to_string(), request.get_command());
+    }
+
+    #[test]
+    fn test_with_date() {
+        let arguments: Box<dyn Iterator<Item = String>> = Box::new(
+            vec![
+                "path_will_be_skipped".to_owned(),
+                "configure".to_owned(),
+                "Venus".to_owned(),
+                "2022-12-04".to_string(),
+            ]
+            .into_iter(),
+        );
+        let request = Request::try_from(arguments).unwrap();
+
+        assert_eq!(Some("2022-12-04".to_string().borrow()), request.get_date());
+        assert_eq!("Venus".to_string(), request.get_parameter());
+        assert_eq!("configure".to_string(), request.get_command());
+    }
+}

@@ -1,6 +1,6 @@
 [package]
 name = "test_elastio"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -15,3 +15,4 @@ chrono = "0.4.23"
 directories = "4.0.1"
 log = "0.4.17"
 logtest = "2.0.0"
+serial_test = "0.9.0"
