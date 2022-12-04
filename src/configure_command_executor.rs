@@ -6,11 +6,11 @@ use crate::interfaces::executor_chain_interface::ExecutorChainInterface;
 use directories::ProjectDirs;
 use std::fs;
 
-pub struct ConfigureExecutor<'a> {
+pub struct ConfigureCommandExecutor<'a> {
     pub next: Option<&'a dyn ExecutorChainInterface>,
 }
 
-impl<'a> ExecutorChainInterface for ConfigureExecutor<'a> {
+impl<'a> ExecutorChainInterface for ConfigureCommandExecutor<'a> {
     fn execute(&self, request: &dyn CommandInterface) -> ExecutionResult {
         if "configure" == request.get_command() {
             let provider = request.get_parameter();

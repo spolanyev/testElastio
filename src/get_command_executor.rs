@@ -7,11 +7,11 @@ use chrono::NaiveDate;
 use directories::ProjectDirs;
 use std::fs;
 
-pub struct GetExecutor<'a> {
+pub struct GetCommandExecutor<'a> {
     pub next: Option<&'a dyn ExecutorChainInterface>,
 }
 
-impl<'a> ExecutorChainInterface for GetExecutor<'a> {
+impl<'a> ExecutorChainInterface for GetCommandExecutor<'a> {
     fn execute(&self, request: &dyn CommandInterface) -> ExecutionResult {
         if "get" == request.get_command() {
             let _address = request.get_parameter();
