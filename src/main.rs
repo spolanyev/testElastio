@@ -9,24 +9,9 @@ use test_elastio::request::Request;
 use test_elastio::view_command_executor::ViewCommandExecutor;
 
 fn main() -> ExecutionResult {
-    let mut arguments = env::args();
-    arguments.next(); //skip file path
-    let (Some(command), Some(parameter)) = (arguments.next(), arguments.next()) else {
+    let arguments: Box<dyn Iterator<Item = String>> = Box::new(env::args());
+    let Ok(request) = Request::try_from(arguments) else {
         return ExecutionResult::WrongParams;
-    };
-
-    let date = {
-        let mut result = None;
-        if let Some(date) = arguments.next() {
-            result = Some(date);
-        }
-        result
-    };
-
-    let request = Request {
-        command,
-        parameter,
-        date,
     };
 
     let view_command_executor = ViewCommandExecutor::default();
