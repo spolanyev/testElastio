@@ -3,7 +3,7 @@
 use crate::execution_result::ExecutionResult;
 use crate::interfaces::command_interface::CommandInterface;
 use crate::interfaces::executor_chain_interface::ExecutorChainInterface;
-use crate::settings::Settings;
+use crate::interfaces::settings_interface::SettingsInterface;
 use chrono::NaiveDate;
 
 pub struct GetCommandExecutor<'a> {
@@ -11,7 +11,11 @@ pub struct GetCommandExecutor<'a> {
 }
 
 impl<'a> ExecutorChainInterface for GetCommandExecutor<'a> {
-    fn execute(&self, request: &dyn CommandInterface, settings: Settings) -> ExecutionResult {
+    fn execute(
+        &self,
+        request: &dyn CommandInterface,
+        settings: &dyn SettingsInterface,
+    ) -> ExecutionResult {
         if "get" == request.get_command() {
             let _address = request.get_parameter();
             let date = request.get_date();

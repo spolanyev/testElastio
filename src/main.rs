@@ -27,5 +27,5 @@ fn main() -> ExecutionResult {
         available_providers: ["Gismeteo", "Alvares"],
     };
 
-    get_command_executor.execute(&request, settings)
+    get_command_executor.execute(&request, &settings)
 }
