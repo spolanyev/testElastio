@@ -6,6 +6,7 @@ use test_elastio::execution_result::ExecutionResult;
 use test_elastio::get_command_executor::GetCommandExecutor;
 use test_elastio::interfaces::executor_chain_interface::ExecutorChainInterface;
 use test_elastio::request::Request;
+use test_elastio::settings::Settings;
 use test_elastio::view_command_executor::ViewCommandExecutor;
 
 fn main() -> ExecutionResult {
@@ -22,5 +23,9 @@ fn main() -> ExecutionResult {
         next: Some(&configure_command_executor),
     };
 
-    get_command_executor.execute(&request)
+    let settings = Settings {
+        available_providers: ["Gismeteo", "Alvares"],
+    };
+
+    get_command_executor.execute(&request, settings)
 }

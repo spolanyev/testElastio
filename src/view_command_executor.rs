@@ -3,38 +3,20 @@
 use crate::execution_result::ExecutionResult;
 use crate::interfaces::command_interface::CommandInterface;
 use crate::interfaces::executor_chain_interface::ExecutorChainInterface;
-use directories::ProjectDirs;
-use std::fs;
+use crate::settings::Settings;
 
 #[derive(Default)]
 pub struct ViewCommandExecutor {}
 
 impl ExecutorChainInterface for ViewCommandExecutor {
-    fn execute(&self, request: &dyn CommandInterface) -> ExecutionResult {
+    fn execute(&self, request: &dyn CommandInterface, settings: Settings) -> ExecutionResult {
         if "view" == request.get_command() {
             let entity = request.get_parameter();
             if "settings" == entity {
-                let provider = {
-                    let Some(project_dirs) = ProjectDirs::from("com", "spolaniev",  "testElastio")  else {
-                        return ExecutionResult::CannotDefinePreferenceDir;
-                    };
-
-                    let preferences = project_dirs.config_dir().join("preferences");
-
-                    match fs::read_to_string(preferences) {
-                        Ok(provider) => {
-                            let mut result = "Gismeteo".to_owned();
-                            let known_providers = vec!["Gismeteo", "Alvares"];
-                            if known_providers.contains(&provider.as_str()) {
-                                result = provider;
-                            }
-                            result
-                        }
-                        Err(_) => "Gismeteo".to_owned(),
-                    }
+                match settings.get_provider() {
+                    Ok(provider) => println!("provider: {}", provider),
+                    Err(error) => return error,
                 };
-
-                println!("provider: {}", provider);
             }
             return ExecutionResult::Ok;
         }

@@ -2,3 +2,4 @@
 
 pub mod command_interface;
 pub mod executor_chain_interface;
+pub mod settings_interface;
