@@ -9,7 +9,6 @@ pub trait WeatherProviderFactoryInterface {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::error::Error;
 
     #[test]
     fn test_factory() {
@@ -21,7 +20,7 @@ mod tests {
                 &self,
                 _address: &str,
                 _date: Option<&String>,
-            ) -> Result<String, Box<dyn Error>> {
+            ) -> Result<String, String> {
                 Ok("Gismeteo: 8 C, 64 %, 4.8 m/s".to_owned())
             }
         }
@@ -33,7 +32,7 @@ mod tests {
                 &self,
                 _address: &str,
                 _date: Option<&String>,
-            ) -> Result<String, Box<dyn Error>> {
+            ) -> Result<String, String> {
                 Ok("Alvares: 16 C, 32 %, 2.4 m/s".to_owned())
             }
         }

@@ -1,9 +1,7 @@
 //@author Stanislav Polaniev <spolanyev@gmail.com>
 
-use std::error::Error;
-
 pub trait WeatherProviderStrategyInterface {
-    fn get_forecast(&self, address: &str, date: Option<&String>) -> Result<String, Box<dyn Error>>;
+    fn get_forecast(&self, address: &str, date: Option<&String>) -> Result<String, String>;
 }
 
 #[cfg(test)]
@@ -18,7 +16,7 @@ mod tests {
         }
 
         impl WeatherProvider {
-            fn get(&self, address: &str, date: Option<&String>) -> Result<String, Box<dyn Error>> {
+            fn get(&self, address: &str, date: Option<&String>) -> Result<String, String> {
                 self.strategy.get_forecast(address, date)
             }
         }
@@ -31,7 +29,7 @@ mod tests {
                 &self,
                 address: &str,
                 _date: Option<&String>,
-            ) -> Result<String, Box<dyn Error>> {
+            ) -> Result<String, String> {
                 Ok(format!("{}: 8 C, 64 %, 4.8 m/s", address))
             }
         }
@@ -44,7 +42,7 @@ mod tests {
                 &self,
                 address: &str,
                 _date: Option<&String>,
-            ) -> Result<String, Box<dyn Error>> {
+            ) -> Result<String, String> {
                 Ok(format!("{}: 16 C, 32 %, 2.4 m/s", address))
             }
         }
