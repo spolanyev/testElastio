@@ -26,10 +26,10 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Create .env file
-        uses: SpicyPizza/create-envfile@v1.3
+        uses: ozaytsev86/create-env-file@v1
         with:
-          envkey_weatherapi: ${{ secrets.weatherapi }}
-          envkey_openweathermap: ${{ secrets.openweathermap }}
+          ENV_weatherapi: ${{ secrets.weatherapi }}
+          ENV_openweathermap: ${{ secrets.openweathermap }}
       - uses: actions/checkout@v3
       - name: Run cargo test
         run: cargo test
