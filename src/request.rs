@@ -27,7 +27,7 @@ impl TryFrom<Box<dyn Iterator<Item = String>>> for Request {
 
     fn try_from(mut iterator: Box<dyn Iterator<Item = String>>) -> Result<Self, Self::Error> {
         iterator.next(); //skip file path
-        let (Some(command), Some(parameter)) = (iterator.next(), iterator.next()) else {
+        let (Some(mut command), Some(parameter)) = (iterator.next(), iterator.next()) else {
             return Err(());
         };
 
@@ -38,6 +38,8 @@ impl TryFrom<Box<dyn Iterator<Item = String>>> for Request {
             }
             result
         };
+
+        command = command.to_lowercase();
 
         Ok(Request {
             command,
