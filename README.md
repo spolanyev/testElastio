@@ -8,5 +8,10 @@ Crates used: [assert_cmd](https://crates.io/crates/assert_cmd), [chrono](https:/
 
 Patterns used:
 
+* Creational
+  - [Simple Factory](src/interfaces/weather_provider_factory_interface.rs)
+
+
 * Behavioral
-    - [Chain of Responsibility](src/interfaces/executor_chain_interface.rs)
+  - [Chain of Responsibility](src/interfaces/executor_chain_interface.rs)
+  - [Strategy](src/interfaces/weather_provider_strategy_interface.rs)

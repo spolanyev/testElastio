@@ -8,6 +8,7 @@ use test_elastio::interfaces::executor_chain_interface::ExecutorChainInterface;
 use test_elastio::request::Request;
 use test_elastio::settings::Settings;
 use test_elastio::view_command_executor::ViewCommandExecutor;
+use test_elastio::weather_provider_factory::WeatherProviderFactory;
 
 fn main() -> ExecutionResult {
     let arguments: Box<dyn Iterator<Item = String>> = Box::new(env::args());
@@ -21,6 +22,7 @@ fn main() -> ExecutionResult {
     };
     let get_command_executor = GetCommandExecutor {
         next: Some(&configure_command_executor),
+        factory: Box::new(WeatherProviderFactory {}),
     };
 
     let settings = Settings {

@@ -4,10 +4,12 @@ use crate::execution_result::ExecutionResult;
 use crate::interfaces::command_interface::CommandInterface;
 use crate::interfaces::executor_chain_interface::ExecutorChainInterface;
 use crate::interfaces::settings_interface::SettingsInterface;
+use crate::interfaces::weather_provider_factory_interface::WeatherProviderFactoryInterface;
 use chrono::NaiveDate;
 
 pub struct GetCommandExecutor<'a> {
     pub next: Option<&'a dyn ExecutorChainInterface>,
+    pub factory: Box<dyn WeatherProviderFactoryInterface>,
 }
 
 impl<'a> ExecutorChainInterface for GetCommandExecutor<'a> {
@@ -17,7 +19,7 @@ impl<'a> ExecutorChainInterface for GetCommandExecutor<'a> {
         settings: &dyn SettingsInterface,
     ) -> ExecutionResult {
         if "get" == request.get_command() {
-            let _address = request.get_parameter();
+            let address = request.get_parameter();
             let date = request.get_date();
 
             if date.is_some()
@@ -27,7 +29,17 @@ impl<'a> ExecutorChainInterface for GetCommandExecutor<'a> {
                 return ExecutionResult::WrongGetCommandParams;
             }
 
-            let _provider = settings.get_provider();
+            let weather_provider = self.factory.get_provider(
+                settings
+                    .get_provider()
+                    .expect("We have at least default test provider"),
+            );
+
+            let Ok(forecast) = weather_provider.get_forecast(address, date) else {
+                return ExecutionResult::WeatherProviderError;
+            };
+
+            println!("{}", forecast);
 
             return ExecutionResult::Ok;
         }

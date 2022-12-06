@@ -47,19 +47,31 @@ fn invoke_with_unknown_provider() {
 }
 
 #[test]
+#[serial]
 fn invoke_with_without_date() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
+    let assert = cmd.arg("configure").arg("Gismeteo").assert();
+    assert.stdout("Gismeteo set\n");
+
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
     let assert = cmd.arg("get").arg("London").assert();
-    assert.stdout("");
+    assert.stdout("London: 8 C, 64 %, 4.8 m/s\n");
 }
 
 #[test]
+#[serial]
 fn invoke_with_valid_date() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
+    let assert = cmd.arg("configure").arg("Gismeteo").assert();
+    assert.stdout("Gismeteo set\n");
+
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
     let assert = cmd.arg("get").arg("London").arg("2022-12-02").assert();
-    assert.stdout("");
+    assert.stdout("London: 4 C, 16 %, 1.2 m/s\n");
 }
 
 #[test]
@@ -87,4 +99,9 @@ fn set_provider_and_check_it() {
 
     let assert = cmd.arg("view").arg("settings").assert();
     assert.stdout("provider: Alvares\n");
+
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("get").arg("London").assert();
+    assert.stdout("London: 16 C, 32 %, 2.4 m/s\n");
 }

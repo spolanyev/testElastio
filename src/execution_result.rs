@@ -9,6 +9,7 @@ pub enum ExecutionResult {
     WrongCommand = 4,
     WrongConfigureCommandParams = 8,
     WrongGetCommandParams = 16,
+    WeatherProviderError = 32,
     CannotSavePreferences = 64,
     CannotDefinePreferenceDir = 128,
     Err = 256,
@@ -32,6 +33,10 @@ impl Termination for ExecutionResult {
 
             ExecutionResult::WrongGetCommandParams => {
                 println!("Expected date format is `2023-01-31`");
+            }
+
+            ExecutionResult::WeatherProviderError => {
+                println!("Cannot get data from the provider");
             }
 
             ExecutionResult::CannotSavePreferences => {
