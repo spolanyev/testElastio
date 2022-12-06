@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["alvares_weather_provider",""],["configure_command_executor",""],["execution_result",""],["get_command_executor",""],["gismeteo_weather_provider",""],["interfaces",""],["openweathermap_weather_provider",""],["request",""],["settings",""],["view_command_executor",""],["weather_provider_factory",""],["weatherapi_weather_provider",""]]};
