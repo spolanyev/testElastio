@@ -13,9 +13,9 @@ impl WeatherProviderFactoryInterface for WeatherProviderFactory {
     fn get_provider(&self, provider: String) -> Box<dyn WeatherProviderStrategyInterface> {
         match provider.to_lowercase().as_str() {
             "openweathermap" => Box::new(OpenweathermapWeatherProvider {}),
-            "weatherapi" => Box::new(WeatherapiWeatherProvider {}),
+            "gismeteo" => Box::new(GismeteoWeatherProvider {}),
             "alvares" => Box::new(AlvaresWeatherProvider {}),
-            _ => Box::new(GismeteoWeatherProvider {}),
+            _ => Box::new(WeatherapiWeatherProvider {}),
         }
     }
 }

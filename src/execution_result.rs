@@ -21,7 +21,9 @@ impl Termination for ExecutionResult {
         match self {
             ExecutionResult::Ok => (),
             ExecutionResult::WrongParams => {
-                println!("Expected format is `weather configure Gismeteo` or `weather get London`");
+                println!(
+                    "Expected format is `weather configure weatherapi` or `weather get London`"
+                );
             }
 
             ExecutionResult::WrongCommand => {
@@ -29,7 +31,7 @@ impl Termination for ExecutionResult {
             }
 
             ExecutionResult::WrongConfigureCommandParams => {
-                println!("Unknown provider");
+                println!("Allowed providers are `weatherapi` and `openweathermap`");
             }
 
             ExecutionResult::WrongGetCommandParams => {

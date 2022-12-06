@@ -8,7 +8,7 @@ fn invoke_without_params() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.assert();
-    assert.stdout("Expected format is `weather configure Gismeteo` or `weather get London`\n");
+    assert.stdout("Expected format is `weather configure weatherapi` or `weather get London`\n");
 }
 
 #[test]
@@ -43,7 +43,7 @@ fn invoke_with_unknown_provider() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.arg("configure").arg("Amazon").assert();
-    assert.stdout("Unknown provider\n");
+    assert.stdout("Allowed providers are `weatherapi` and `openweathermap`\n");
 }
 
 #[test]
