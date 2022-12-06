@@ -26,7 +26,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Create .env file
-        run: echo -e "weatherapi=${{ secrets.weatherapi }}\openweathermap=${{ secrets.openweathermap }}\n" > .env
+        run: echo "weatherapi=${{ secrets.weatherapi }}   openweathermap=${{ secrets.openweathermap }}   " | tr "   " "\n" >> .env
       - uses: actions/checkout@v3
       - name: Run cargo test
         run: cargo test
