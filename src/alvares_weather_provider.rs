@@ -11,6 +11,6 @@ impl WeatherProviderStrategyInterface for AlvaresWeatherProvider {
         address: &str,
         _date: Option<&String>,
     ) -> Result<String, Box<dyn Error>> {
-        Ok(format!("{}: 16 C, 32 %, 2.4 m/s", address))
+        Ok(format!("{}: 16 C, 64 %, 4.8 m/s", address))
     }
 }

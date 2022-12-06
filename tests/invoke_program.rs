@@ -57,7 +57,7 @@ fn invoke_with_without_date() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.arg("get").arg("London").assert();
-    assert.stdout("London: 8 C, 64 %, 4.8 m/s\n");
+    assert.stdout("London: 8 C, 32 %, 2.4 m/s\n");
 }
 
 #[test]
@@ -103,5 +103,5 @@ fn set_provider_and_check_it() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.arg("get").arg("London").assert();
-    assert.stdout("London: 16 C, 32 %, 2.4 m/s\n");
+    assert.stdout("London: 16 C, 64 %, 4.8 m/s\n");
 }
