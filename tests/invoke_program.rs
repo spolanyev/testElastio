@@ -105,3 +105,52 @@ fn set_provider_and_check_it() {
     let assert = cmd.arg("get").arg("London").assert();
     assert.stdout("London: 16 C, 64 %, 4.8 m/s\n");
 }
+
+#[test]
+#[ignore]
+fn invoke_without_api_keys() {
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("get").arg("London").arg("2022-12").assert();
+    assert.stdout("API keys not found\n");
+}
+
+#[test]
+#[ignore]
+#[serial]
+fn production_set_openweathermap_and_check() {
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("configure").arg("openweathermap").assert();
+    assert.stdout("openweathermap set\n");
+
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("get").arg("London").arg("2023-01-01").assert();
+    assert.stdout("This API doesn't support future request\n");
+
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("get").arg("London").assert();
+    assert.stdout("London: 16 C, 64 %, 4.8 m/s\n");
+}
+
+#[test]
+#[ignore]
+#[serial]
+fn production_set_weatherapi_and_check() {
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("configure").arg("weatherapi").assert();
+    assert.stdout("weatherapi set\n");
+
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("get").arg("London").arg("2023-01-01").assert();
+    assert.stdout("London: 16 C, 64 %, 4.8 m/s\n");
+
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("get").arg("London").assert();
+    assert.stdout("London: 16 C, 64 %, 4.8 m/s\n");
+}

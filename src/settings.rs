@@ -7,7 +7,7 @@ use std::fs;
 use std::path::PathBuf;
 
 pub struct Settings<'a> {
-    pub available_providers: [&'a str; 2],
+    pub available_providers: [&'a str; 4],
 }
 
 impl<'a> Settings<'a> {
@@ -70,7 +70,7 @@ mod tests {
     #[serial]
     fn set_and_get() {
         let settings = Settings {
-            available_providers: ["Mercury", "Venus"],
+            available_providers: ["Mercury", "Venus", "Gismeteo", "Alvares"],
         };
 
         settings.set_provider("Mercury");

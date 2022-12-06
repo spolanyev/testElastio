@@ -13,6 +13,7 @@ pub enum ExecutionResult {
     CannotSavePreferences = 64,
     CannotDefinePreferenceDir = 128,
     Err = 256,
+    NoApiKeys = 512,
 }
 
 impl Termination for ExecutionResult {
@@ -49,6 +50,10 @@ impl Termination for ExecutionResult {
 
             ExecutionResult::Err => {
                 println!("Internal error");
+            }
+
+            ExecutionResult::NoApiKeys => {
+                println!("API keys not found");
             }
         }
         ExitCode::from(0)

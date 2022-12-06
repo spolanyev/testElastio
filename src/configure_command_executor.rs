@@ -58,7 +58,7 @@ mod tests {
         };
 
         let settings = Settings {
-            available_providers: ["Mercury", "Venus"],
+            available_providers: ["Mercury", "Venus", "Gismeteo", "Alvares"],
         };
 
         assert_eq!(

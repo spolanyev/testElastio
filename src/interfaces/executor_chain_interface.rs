@@ -93,7 +93,7 @@ mod tests {
         let mut logger = Logger::start();
 
         let settings = Settings {
-            available_providers: ["Gismeteo", "Alvares"],
+            available_providers: ["Mercury", "Venus", "Gismeteo", "Alvares"],
         };
 
         //target is the second executor

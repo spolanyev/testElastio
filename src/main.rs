@@ -11,6 +11,14 @@ use test_elastio::view_command_executor::ViewCommandExecutor;
 use test_elastio::weather_provider_factory::WeatherProviderFactory;
 
 fn main() -> ExecutionResult {
+    if dotenv::var("openweathermap").is_err()
+        || dotenv::var("openweathermap").unwrap().is_empty()
+        || dotenv::var("openweathermap").is_err()
+        || dotenv::var("openweathermap").unwrap().is_empty()
+    {
+        return ExecutionResult::NoApiKeys;
+    }
+
     let arguments: Box<dyn Iterator<Item = String>> = Box::new(env::args());
     let Ok(request) = Request::try_from(arguments) else {
         return ExecutionResult::WrongParams;
@@ -26,7 +34,7 @@ fn main() -> ExecutionResult {
     };
 
     let settings = Settings {
-        available_providers: ["Gismeteo", "Alvares"],
+        available_providers: ["Gismeteo", "Alvares", "openweathermap", "weatherapi"],
     };
 
     get_command_executor.execute(&request, &settings)
