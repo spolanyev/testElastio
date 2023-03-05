@@ -8,7 +8,7 @@ fn invoke_without_params() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.assert();
-    assert.stdout("Expected format is `weather configure weatherapi` or `weather get London`\n");
+    assert.stdout("Expected format is `weather configure Weatherapi` or `weather get London`\n");
 }
 
 #[test]
@@ -43,7 +43,7 @@ fn invoke_with_unknown_provider() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.arg("configure").arg("Amazon").assert();
-    assert.stdout("Allowed providers are `weatherapi` and `openweathermap`\n");
+    assert.stdout("Allowed services are `Weatherapi` and `Openweathermap`\n");
 }
 
 #[test]
@@ -98,7 +98,7 @@ fn set_provider_and_check_it() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.arg("view").arg("settings").assert();
-    assert.stdout("provider: Alvares\n");
+    assert.stdout("Current service is Alvares\n");
 
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
@@ -121,13 +121,13 @@ fn invoke_without_api_keys() {
 fn production_set_openweathermap_and_check() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
-    let assert = cmd.arg("configure").arg("openweathermap").assert();
-    assert.stdout("openweathermap set\n");
+    let assert = cmd.arg("configure").arg("Openweathermap").assert();
+    assert.stdout("Openweathermap set\n");
 
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
     let assert = cmd.arg("get").arg("London").arg("2023-01-01").assert();
-    assert.stdout("This API doesn't support future request\n");
+    assert.stdout("This API does not support future requests\n");
 
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
@@ -141,8 +141,8 @@ fn production_set_openweathermap_and_check() {
 fn production_set_weatherapi_and_check() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
-    let assert = cmd.arg("configure").arg("weatherapi").assert();
-    assert.stdout("weatherapi set\n");
+    let assert = cmd.arg("configure").arg("Weatherapi").assert();
+    assert.stdout("Weatherapi set\n");
 
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 

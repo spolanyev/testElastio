@@ -18,7 +18,7 @@ impl ExecutorChainInterface for ViewCommandExecutor {
             let entity = request.get_parameter();
             if "settings" == entity {
                 match settings.get_provider() {
-                    Ok(provider) => println!("provider: {}", provider),
+                    Ok(provider) => println!("Current service is {}", provider),
                     Err(error) => return error,
                 };
             }

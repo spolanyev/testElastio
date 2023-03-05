@@ -34,7 +34,7 @@ fn main() -> ExecutionResult {
     };
 
     let settings = Settings {
-        available_providers: ["Gismeteo", "Alvares", "openweathermap", "weatherapi"],
+        available_providers: ["Gismeteo", "Alvares", "Openweathermap", "Weatherapi"],
     };
 
     get_command_executor.execute(&request, &settings)

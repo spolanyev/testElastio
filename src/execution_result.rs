@@ -22,7 +22,7 @@ impl Termination for ExecutionResult {
             ExecutionResult::Ok => (),
             ExecutionResult::WrongParams => {
                 println!(
-                    "Expected format is `weather configure weatherapi` or `weather get London`"
+                    "Expected format is `weather configure Weatherapi` or `weather get London`"
                 );
             }
 
@@ -31,7 +31,7 @@ impl Termination for ExecutionResult {
             }
 
             ExecutionResult::WrongConfigureCommandParams => {
-                println!("Allowed providers are `weatherapi` and `openweathermap`");
+                println!("Allowed services are `Weatherapi` and `Openweathermap`");
             }
 
             ExecutionResult::WrongGetCommandParams => {
@@ -39,7 +39,7 @@ impl Termination for ExecutionResult {
             }
 
             ExecutionResult::WeatherProviderError => {
-                println!("Cannot get data from the provider");
+                println!("Cannot get data from the service");
             }
 
             ExecutionResult::CannotSavePreferences => {
