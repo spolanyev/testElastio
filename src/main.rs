@@ -12,9 +12,13 @@ use test_elastio::weather_provider_factory::WeatherProviderFactory;
 
 fn main() -> ExecutionResult {
     if dotenv::var("openweathermap").is_err()
-        || dotenv::var("openweathermap").unwrap().is_empty()
+        || dotenv::var("openweathermap")
+            .expect("We checked it before")
+            .is_empty()
         || dotenv::var("weatherapi").is_err()
-        || dotenv::var("weatherapi").unwrap().is_empty()
+        || dotenv::var("weatherapi")
+            .expect("We checked it before")
+            .is_empty()
     {
         return ExecutionResult::NoApiKeys;
     }

@@ -50,7 +50,7 @@ mod tests {
             ]
             .into_iter(),
         );
-        let request = Request::try_from(arguments).unwrap();
+        let request = Request::try_from(arguments).expect("We provided arguments");
 
         let view_command_executor = ViewCommandExecutor::default();
         let configure_command_executor = ConfigureCommandExecutor {

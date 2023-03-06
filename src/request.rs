@@ -64,7 +64,7 @@ mod tests {
             ]
             .into_iter(),
         );
-        let request = Request::try_from(arguments).unwrap();
+        let request = Request::try_from(arguments).expect("We provided arguments");
 
         assert_eq!(None, request.get_date());
         assert_eq!("Venus".to_string(), request.get_parameter());
@@ -82,7 +82,7 @@ mod tests {
             ]
             .into_iter(),
         );
-        let request = Request::try_from(arguments).unwrap();
+        let request = Request::try_from(arguments).expect("We provided arguments");
 
         assert_eq!(Some("2022-12-04".to_string().borrow()), request.get_date());
         assert_eq!("Venus".to_string(), request.get_parameter());
