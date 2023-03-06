@@ -45,7 +45,7 @@ impl WeatherProviderStrategyInterface for OpenweathermapWeatherProvider {
                     let time = NaiveDate::from_ymd_opt(year, month, day)
                         .expect("We checked date before")
                         .and_hms_opt(0, 0, 0)
-                        .expect("Nothing breaking here");
+                        .expect("We provided valid values");
                     (time - now.naive_utc()).num_days() > 0
                 };
 

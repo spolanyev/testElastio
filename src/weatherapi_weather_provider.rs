@@ -46,7 +46,7 @@ impl WeatherProviderStrategyInterface for WeatherapiWeatherProvider {
                     let time = NaiveDate::from_ymd_opt(year, month, day)
                         .expect("We checked date before")
                         .and_hms_opt(0, 0, 0)
-                        .expect("Nothing breaking here");
+                        .expect("We provided valid values");
                     (time - now.naive_utc()).num_days() > 0
                 };
 
@@ -65,16 +65,16 @@ impl WeatherProviderStrategyInterface for WeatherapiWeatherProvider {
             true,
         );
         if is_future {
-            let result = client
+            let Ok(result) = client
                 .future()
                 .query(Query::City(address.to_string()))
                 .dt(Utc
                     .with_ymd_and_hms(year, month, day, hour, minute, second)
                     .unwrap())
                 .call()
-                .expect("future failed");
-
-            //println!("{:#?}", result.forecast.forecast_day);
+                 else {
+                     return Err("Cannot get a future forecast. Try again later.".to_owned());
+                 };
 
             Ok(format!(
                 "{}: {:.0} C, {:.0} %, {:.1} m/s",
@@ -84,14 +84,15 @@ impl WeatherProviderStrategyInterface for WeatherapiWeatherProvider {
                 result.forecast.forecast_day[0].day.avgvis_km / 2.237
             ))
         } else {
-            let result = client
+            let Ok(result) = client
                 .forecast()
                 .query(Query::City(address.to_string()))
                 .dt(Utc
                     .with_ymd_and_hms(year, month, day, hour, minute, second)
                     .unwrap())
-                .call()
-                .expect("forecast failed");
+                .call() else {
+                return Err("Cannot get a forecast. Try again later.".to_owned());
+            };
 
             Ok(format!(
                 "{}: {:.0} C, {:.0} %, {:.1} m/s",
