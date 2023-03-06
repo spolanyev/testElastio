@@ -4,6 +4,7 @@ use assert_cmd::Command;
 use serial_test::serial;
 
 #[test]
+#[serial]
 fn invoke_without_params() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
@@ -21,6 +22,7 @@ fn invoke_with_params() {
 }
 
 #[test]
+#[serial]
 fn invoke_with_unknown_command() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
@@ -75,6 +77,7 @@ fn invoke_with_valid_date() {
 }
 
 #[test]
+#[serial]
 fn invoke_with_invalid_date() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
