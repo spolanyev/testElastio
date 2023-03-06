@@ -114,8 +114,17 @@ fn set_provider_and_check_it() {
 fn invoke_without_api_keys() {
     let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
 
-    let assert = cmd.arg("get").arg("London").arg("2022-12").assert();
+    let assert = cmd.arg("get").arg("London").assert();
     assert.stdout("API keys not found\n");
+}
+
+#[test]
+#[ignore]
+fn invoke_without_env_file() {
+    let mut cmd = Command::cargo_bin("weather").expect("We have this binary");
+
+    let assert = cmd.arg("get").arg("London").assert();
+    assert.stdout("Cannot find .env file\n");
 }
 
 #[test]

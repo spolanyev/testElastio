@@ -29,11 +29,14 @@ impl<'a> ExecutorChainInterface for GetCommandExecutor<'a> {
                 return ExecutionResult::WrongGetCommandParams;
             }
 
-            let weather_provider = self.factory.get_provider(
-                settings
-                    .get_provider()
-                    .expect("We have at least default test provider"),
-            );
+            let provider = match settings.get_provider() {
+                Ok(provider) => provider,
+                Err(error) => {
+                    return error;
+                }
+            };
+
+            let weather_provider = self.factory.get_provider(provider);
 
             let Ok(forecast) = weather_provider.get_forecast(address, date) else {
                 return ExecutionResult::WeatherProviderError;
