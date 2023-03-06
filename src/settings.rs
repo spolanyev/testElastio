@@ -2,23 +2,12 @@
 
 use crate::execution_result::ExecutionResult;
 use crate::interfaces::settings_interface::SettingsInterface;
-use directories::ProjectDirs;
-use std::fs;
-use std::path::PathBuf;
+use std::fs::{File, OpenOptions};
+use std::io::{BufRead, BufReader, Write};
+use std::ops::Add;
 
 pub struct Settings<'a> {
     pub available_providers: [&'a str; 4],
-}
-
-impl<'a> Settings<'a> {
-    fn get_preferences_path() -> Result<PathBuf, ()> {
-        let Some(project_dirs) = ProjectDirs::from("com", "spolaniev", "testElastio")  else {
-            return Err(());
-        };
-
-        let preferences = project_dirs.config_dir().join("preferences");
-        Ok(preferences)
-    }
 }
 
 impl<'a> SettingsInterface for Settings<'a> {
@@ -27,15 +16,34 @@ impl<'a> SettingsInterface for Settings<'a> {
             return ExecutionResult::WrongConfigureCommandParams;
         }
 
-        let Ok(preferences) = Self::get_preferences_path() else {
-            return ExecutionResult::CannotDefinePreferenceDir;
+        let Ok(env_file) = File::open(".env") else {
+            return ExecutionResult::EnvFileNotFound;
         };
 
-        if fs::create_dir_all(preferences.parent().expect("We have at least one level")).is_err()
-            || fs::write(preferences, provider).is_err()
-        {
-            return ExecutionResult::CannotSavePreferences;
+        let mut lines: Vec<String> = BufReader::new(env_file)
+            .lines()
+            .map(|line| line.expect("Failed to read line"))
+            .collect();
+        let line_index = lines.iter().position(|line| line.starts_with("service="));
+
+        if let Some(index) = line_index {
+            lines[index] = String::from("service=").add(provider);
+        } else {
+            lines.push(String::from("service=").add(provider));
         }
+
+        let Ok(mut env_file) = OpenOptions::new()
+            .write(true)
+            .truncate(true)
+            .open(".env") else {
+            return ExecutionResult::CannotSavePreferences;
+        };
+
+        let content = lines.join("\n");
+
+        let Ok(_) = env_file.write(content.as_bytes()) else {
+            return ExecutionResult::CannotSavePreferences;
+        };
 
         println!("{} set", provider);
 
@@ -43,20 +51,19 @@ impl<'a> SettingsInterface for Settings<'a> {
     }
 
     fn get_provider(&self) -> Result<String, ExecutionResult> {
-        let Ok(preferences) = Self::get_preferences_path() else {
-            return Err(ExecutionResult::CannotDefinePreferenceDir);
+        let Ok(instance) = dotenv::from_path(".env") else {
+            return Err(ExecutionResult::EnvFileNotFound);
         };
 
-        Ok(match fs::read_to_string(preferences) {
-            Ok(provider) => {
-                let mut result = "Gismeteo".to_owned();
-                if self.available_providers.contains(&provider.as_str()) {
-                    result = provider;
-                }
-                result
-            }
-            Err(_) => "Gismeteo".to_owned(),
-        })
+        instance.load_override();
+
+        if dotenv::var("service").is_err()
+            || dotenv::var("service").expect("We have the key").is_empty()
+        {
+            return Ok("Gismeteo".to_owned());
+        }
+
+        Ok(dotenv::var("service").expect("We have the key"))
     }
 }
 

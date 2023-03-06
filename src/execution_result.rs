@@ -11,7 +11,7 @@ pub enum ExecutionResult {
     WrongGetCommandParams = 16,
     WeatherProviderError = 32,
     CannotSavePreferences = 64,
-    CannotDefinePreferenceDir = 128,
+    EnvFileNotFound = 128,
     Err = 256,
     NoApiKeys = 512,
 }
@@ -46,8 +46,8 @@ impl Termination for ExecutionResult {
                 println!("Cannot save preferences");
             }
 
-            ExecutionResult::CannotDefinePreferenceDir => {
-                println!("Cannot define preferences directory");
+            ExecutionResult::EnvFileNotFound => {
+                println!("Cannot find .env file");
             }
 
             ExecutionResult::Err => {
