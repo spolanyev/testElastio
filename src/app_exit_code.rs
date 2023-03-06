@@ -3,7 +3,7 @@
 use std::process::{ExitCode, Termination};
 
 #[derive(PartialEq, Eq, Debug)]
-pub enum ExecutionResult {
+pub enum AppExitCode {
     Ok = 0,
     WrongParams = 2,
     WrongCommand = 4,
@@ -16,45 +16,45 @@ pub enum ExecutionResult {
     NoApiKeys = 512,
 }
 
-impl Termination for ExecutionResult {
+impl Termination for AppExitCode {
     fn report(self) -> ExitCode {
         match self {
-            ExecutionResult::Ok => (),
-            ExecutionResult::WrongParams => {
+            AppExitCode::Ok => (),
+            AppExitCode::WrongParams => {
                 println!(
                     "Expected format is `weather configure Weatherapi` or `weather get London`"
                 );
             }
 
-            ExecutionResult::WrongCommand => {
+            AppExitCode::WrongCommand => {
                 println!("Allowed commands are `configure` and `get`");
             }
 
-            ExecutionResult::WrongConfigureCommandParams => {
+            AppExitCode::WrongConfigureCommandParams => {
                 println!("Allowed services are `Weatherapi` and `Openweathermap`");
             }
 
-            ExecutionResult::WrongGetCommandParams => {
+            AppExitCode::WrongGetCommandParams => {
                 println!("Expected date format is `2023-01-31`");
             }
 
-            ExecutionResult::WeatherProviderError => {
+            AppExitCode::WeatherProviderError => {
                 println!("Cannot get data from the service");
             }
 
-            ExecutionResult::CannotSavePreferences => {
+            AppExitCode::CannotSavePreferences => {
                 println!("Cannot save preferences");
             }
 
-            ExecutionResult::EnvFileNotFound => {
+            AppExitCode::EnvFileNotFound => {
                 println!("Cannot find .env file");
             }
 
-            ExecutionResult::Err => {
+            AppExitCode::Err => {
                 println!("Internal error");
             }
 
-            ExecutionResult::NoApiKeys => {
+            AppExitCode::NoApiKeys => {
                 println!("API keys not found");
             }
         }

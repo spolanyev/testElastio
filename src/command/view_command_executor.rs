@@ -1,9 +1,9 @@
 //@author Stanislav Polaniev <spolanyev@gmail.com>
 
-use crate::execution_result::ExecutionResult;
+use crate::app_exit_code::AppExitCode;
 use crate::interfaces::command_interface::CommandInterface;
 use crate::interfaces::executor_chain_interface::ExecutorChainInterface;
-use crate::interfaces::settings_interface::SettingsInterface;
+use crate::interfaces::provider_settings_interface::ProviderSettingsInterface;
 
 #[derive(Default)]
 pub struct ViewCommandExecutor {}
@@ -12,8 +12,8 @@ impl ExecutorChainInterface for ViewCommandExecutor {
     fn execute(
         &self,
         request: &dyn CommandInterface,
-        settings: &dyn SettingsInterface,
-    ) -> ExecutionResult {
+        settings: &dyn ProviderSettingsInterface,
+    ) -> AppExitCode {
         if "view" == request.get_command() {
             let entity = request.get_parameter();
             if "settings" == entity {
@@ -22,9 +22,9 @@ impl ExecutorChainInterface for ViewCommandExecutor {
                     Err(error) => return error,
                 };
             }
-            return ExecutionResult::Ok;
+            return AppExitCode::Ok;
         }
-        ExecutionResult::WrongCommand
+        AppExitCode::WrongCommand
     }
 
     fn next(&self) -> Option<&dyn ExecutorChainInterface> {

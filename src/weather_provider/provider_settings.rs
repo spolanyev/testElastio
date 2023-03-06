@@ -1,23 +1,23 @@
 //@author Stanislav Polaniev <spolanyev@gmail.com>
 
-use crate::execution_result::ExecutionResult;
-use crate::interfaces::settings_interface::SettingsInterface;
+use crate::app_exit_code::AppExitCode;
+use crate::interfaces::provider_settings_interface::ProviderSettingsInterface;
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::ops::Add;
 
-pub struct Settings<'a> {
+pub struct ProviderSettings<'a> {
     pub available_providers: [&'a str; 4],
 }
 
-impl<'a> SettingsInterface for Settings<'a> {
-    fn set_provider(&self, provider: &str) -> ExecutionResult {
+impl<'a> ProviderSettingsInterface for ProviderSettings<'a> {
+    fn set_provider(&self, provider: &str) -> AppExitCode {
         if !self.available_providers.contains(&provider) {
-            return ExecutionResult::WrongConfigureCommandParams;
+            return AppExitCode::WrongConfigureCommandParams;
         }
 
         let Ok(env_file) = File::open(".env") else {
-            return ExecutionResult::EnvFileNotFound;
+            return AppExitCode::EnvFileNotFound;
         };
 
         let mut lines: Vec<String> = BufReader::new(env_file)
@@ -36,23 +36,23 @@ impl<'a> SettingsInterface for Settings<'a> {
             .write(true)
             .truncate(true)
             .open(".env") else {
-            return ExecutionResult::CannotSavePreferences;
+            return AppExitCode::CannotSavePreferences;
         };
 
         let content = lines.join("\n");
 
         let Ok(_) = env_file.write(content.as_bytes()) else {
-            return ExecutionResult::CannotSavePreferences;
+            return AppExitCode::CannotSavePreferences;
         };
 
         println!("{} set", provider);
 
-        ExecutionResult::Ok
+        AppExitCode::Ok
     }
 
-    fn get_provider(&self) -> Result<String, ExecutionResult> {
+    fn get_provider(&self) -> Result<String, AppExitCode> {
         let Ok(instance) = dotenv::from_path(".env") else {
-            return Err(ExecutionResult::EnvFileNotFound);
+            return Err(AppExitCode::EnvFileNotFound);
         };
 
         instance.load_override();
@@ -76,7 +76,7 @@ mod tests {
     #[test]
     #[serial]
     fn set_and_get() {
-        let settings = Settings {
+        let settings = ProviderSettings {
             available_providers: ["Mercury", "Venus", "Gismeteo", "Alvares"],
         };
 

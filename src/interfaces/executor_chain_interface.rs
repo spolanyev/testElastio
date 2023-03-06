@@ -1,22 +1,22 @@
 //@author Stanislav Polaniev <spolanyev@gmail.com>
 
-use crate::execution_result::ExecutionResult;
+use crate::app_exit_code::AppExitCode;
 use crate::interfaces::command_interface::CommandInterface;
-use crate::interfaces::settings_interface::SettingsInterface;
+use crate::interfaces::provider_settings_interface::ProviderSettingsInterface;
 
 pub trait ExecutorChainInterface {
     fn execute(
         &self,
         request: &dyn CommandInterface,
-        settings: &dyn SettingsInterface,
-    ) -> ExecutionResult;
+        settings: &dyn ProviderSettingsInterface,
+    ) -> AppExitCode;
     fn next(&self) -> Option<&dyn ExecutorChainInterface>;
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::settings::Settings;
+    use crate::weather_provider::provider_settings::ProviderSettings;
     use logtest::Logger;
 
     #[test]
@@ -49,17 +49,17 @@ mod tests {
             fn execute(
                 &self,
                 request: &dyn CommandInterface,
-                settings: &dyn SettingsInterface,
-            ) -> ExecutionResult {
+                settings: &dyn ProviderSettingsInterface,
+            ) -> AppExitCode {
                 if "I need Executor I" == request.get_command() {
                     log::info!("Executor I proceeded");
-                    return ExecutionResult::Ok;
+                    return AppExitCode::Ok;
                 }
 
                 if let Some(next_executor) = self.next {
                     return next_executor.execute(request, settings);
                 }
-                ExecutionResult::Err
+                AppExitCode::Err
             }
 
             fn next(&self) -> Option<&'a dyn ExecutorChainInterface> {
@@ -74,14 +74,14 @@ mod tests {
             fn execute(
                 &self,
                 request: &dyn CommandInterface,
-                _settings: &dyn SettingsInterface,
-            ) -> ExecutionResult {
+                _settings: &dyn ProviderSettingsInterface,
+            ) -> AppExitCode {
                 if "I need Executor II" == request.get_command() {
                     log::info!("Executor II proceeded");
-                    return ExecutionResult::Ok;
+                    return AppExitCode::Ok;
                 }
                 log::info!("I do not know who can help!");
-                ExecutionResult::Ok
+                AppExitCode::Ok
             }
 
             fn next(&self) -> Option<&dyn ExecutorChainInterface> {
@@ -92,7 +92,7 @@ mod tests {
         //start the logger
         let mut logger = Logger::start();
 
-        let settings = Settings {
+        let settings = ProviderSettings {
             available_providers: ["Mercury", "Venus", "Gismeteo", "Alvares"],
         };
 
