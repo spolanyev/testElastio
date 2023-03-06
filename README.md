@@ -18,7 +18,7 @@ Patterns used:
 
 The project is done with TDD approach.<br>
 Tests are run on each commit, and GitHub Actions runs tests on Windows, Mac, and Linux.<br>
-Documentation is generated and deployed on each push.
+Documentation is generated and deployed automatically with each push.
 
 # Usage
 
@@ -59,4 +59,4 @@ weather configure Weatherapi
 
 # Contacts
 
-If you are hiring, contact me at [spolanyev@gmail.com](mailto:spolanyev@gmail.com?subject=Rust%3A%20vacancy)
+If you are hiring, please feel free to contact me at [spolanyev@gmail.com](mailto:spolanyev@gmail.com?subject=Rust%3A%20vacancy). Thank you!
