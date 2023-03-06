@@ -1,11 +1,11 @@
 //@author Stanislav Polaniev <spolanyev@gmail.com>
 
-use crate::alvares_weather_provider::AlvaresWeatherProvider;
-use crate::gismeteo_weather_provider::GismeteoWeatherProvider;
 use crate::interfaces::weather_provider_factory_interface::WeatherProviderFactoryInterface;
 use crate::interfaces::weather_provider_strategy_interface::WeatherProviderStrategyInterface;
-use crate::openweathermap_weather_provider::OpenweathermapWeatherProvider;
-use crate::weatherapi_weather_provider::WeatherapiWeatherProvider;
+use crate::weather_provider::alvares_weather_provider::AlvaresWeatherProvider;
+use crate::weather_provider::gismeteo_weather_provider::GismeteoWeatherProvider;
+use crate::weather_provider::openweathermap_weather_provider::OpenweathermapWeatherProvider;
+use crate::weather_provider::weatherapi_weather_provider::WeatherapiWeatherProvider;
 
 pub struct WeatherProviderFactory {}
 

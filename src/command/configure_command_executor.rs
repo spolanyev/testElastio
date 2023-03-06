@@ -34,9 +34,9 @@ impl<'a> ExecutorChainInterface for ConfigureCommandExecutor<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::command::view_command_executor::ViewCommandExecutor;
     use crate::request::Request;
     use crate::settings::Settings;
-    use crate::view_command_executor::ViewCommandExecutor;
     use serial_test::serial;
 
     #[test]

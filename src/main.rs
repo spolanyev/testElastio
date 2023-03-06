@@ -1,13 +1,13 @@
 //@author Stanislav Polaniev <spolanyev@gmail.com>
 
 use std::env;
-use test_elastio::configure_command_executor::ConfigureCommandExecutor;
+use test_elastio::command::configure_command_executor::ConfigureCommandExecutor;
+use test_elastio::command::get_command_executor::GetCommandExecutor;
+use test_elastio::command::view_command_executor::ViewCommandExecutor;
 use test_elastio::execution_result::ExecutionResult;
-use test_elastio::get_command_executor::GetCommandExecutor;
 use test_elastio::interfaces::executor_chain_interface::ExecutorChainInterface;
 use test_elastio::request::Request;
 use test_elastio::settings::Settings;
-use test_elastio::view_command_executor::ViewCommandExecutor;
 use test_elastio::weather_provider_factory::WeatherProviderFactory;
 
 fn main() -> ExecutionResult {
