@@ -11,15 +11,7 @@ use test_elastio::weather_provider::provider_settings::ProviderSettings;
 use test_elastio::weather_provider::weather_provider_factory::WeatherProviderFactory;
 
 fn main() -> AppExitCode {
-    if dotenv::var("openweathermap").is_err()
-        || dotenv::var("openweathermap")
-            .expect("We checked it before")
-            .is_empty()
-        || dotenv::var("weatherapi").is_err()
-        || dotenv::var("weatherapi")
-            .expect("We checked it before")
-            .is_empty()
-    {
+    if is_api_key_missing("openweathermap") || is_api_key_missing("weatherapi") {
         return AppExitCode::NoApiKeys;
     }
 
@@ -44,4 +36,12 @@ fn main() -> AppExitCode {
     };
 
     get_chain.execute(&request, &settings)
+}
+
+fn is_api_key_missing(key: &str) -> bool {
+    match dotenv::var(key) {
+        Err(_) => true,
+        Ok(value) if value.is_empty() => true,
+        _ => false,
+    }
 }
