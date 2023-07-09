@@ -40,8 +40,7 @@ fn main() -> AppExitCode {
 
 fn is_api_key_missing(key: &str) -> bool {
     match dotenv::var(key) {
-        Err(_) => true,
-        Ok(value) if value.is_empty() => true,
-        _ => false,
+        Ok(value) => value.is_empty(),
+        _ => true,
     }
 }
