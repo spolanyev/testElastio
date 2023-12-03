@@ -32,10 +32,7 @@ impl<'a> ProviderSettingsInterface for ProviderSettings<'a> {
             lines.push(String::from("service=").add(provider));
         }
 
-        let Ok(mut env_file) = OpenOptions::new()
-            .write(true)
-            .truncate(true)
-            .open(".env") else {
+        let Ok(mut env_file) = OpenOptions::new().write(true).truncate(true).open(".env") else {
             return AppExitCode::CannotSavePreferences;
         };
 

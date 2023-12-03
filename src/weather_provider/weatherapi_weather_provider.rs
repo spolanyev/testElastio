@@ -72,9 +72,9 @@ impl WeatherProviderStrategyInterface for WeatherapiWeatherProvider {
                     .with_ymd_and_hms(year, month, day, hour, minute, second)
                     .unwrap())
                 .call()
-                 else {
-                     return Err("Cannot get a future forecast. Try again later.".to_owned());
-                 };
+            else {
+                return Err("Cannot get a future forecast. Try again later.".to_owned());
+            };
 
             Ok(format!(
                 "{}: {:.0} C, {:.0} %, {:.1} m/s",
@@ -90,7 +90,8 @@ impl WeatherProviderStrategyInterface for WeatherapiWeatherProvider {
                 .dt(Utc
                     .with_ymd_and_hms(year, month, day, hour, minute, second)
                     .unwrap())
-                .call() else {
+                .call()
+            else {
                 return Err("Cannot get a forecast. Try again later.".to_owned());
             };
 
