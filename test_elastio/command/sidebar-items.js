@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["configure_command_executor","get_command_executor","view_command_executor"]};

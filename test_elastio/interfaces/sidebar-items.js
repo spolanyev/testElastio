@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["command_interface","executor_chain_interface","provider_settings_interface","weather_provider_factory_interface","weather_provider_strategy_interface"]};

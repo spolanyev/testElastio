@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["alvares_weather_provider","gismeteo_weather_provider","openweathermap_weather_provider","provider_settings","weather_provider_factory","weatherapi_weather_provider"]};
